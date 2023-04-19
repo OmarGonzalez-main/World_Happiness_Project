@@ -1,4 +1,5 @@
 # PROJECT SUMMARY:
+
 The World Happiness Report dataset provides comprehensive data on the happiness levels of various countries from 2005 to the present. The dataset contains information on life satisfaction, economic indicators, social factors, and other variables that contribute to the overall happiness of a country.
 
 In this project, SQL server was utilized to analyze the dataset and uncover patterns and relationships between different factors contributing to happiness. The first challenge encountered was handling null values in the dataset. Since the data was collected on the same countries for several years, removing rows with null values was not ideal. Instead, null values were retained in the analysis as they would be ignored in calculations using SQL and Tableau.
