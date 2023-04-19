@@ -15,8 +15,8 @@ GROUP BY
 ORDER BY 
 	years
 
--- We can see that we only have 27 observations from 2005 compared to 100+ observations from most other years, we need to take this into account for all future
--- results.
+-- We can see that we only have 27 observations from 2005 compared to 100+ observations from most other years,
+-- we need to take this into account for all future results.
 
 
 
@@ -54,16 +54,29 @@ ORDER BY
 -- Overall GDP averages range from 8-11
 
 
---	Are there any regional patterns in happiness from 2005-2022? Do countries in specific regions (e.g., Europe, Asia, Africa) tend to be happier than others?
 
-SELECT Regional_Indicator, AVG(Life_Ladder) AS avg_life_ladder, (SELECT AVG(Life_Ladder) as two_five FROM WorldHappinessReport) AS global_avg
-FROM WorldHappinessReport
-WHERE Regional_Indicator IS NOT NULL
-GROUP BY Regional_Indicator
-ORDER BY 2 DESC
 
--- We can see that North American and ANZ, Western Europe and Latin America and Caribbean have the top 3 highest Life Ladder
--- We can also see the differences in places like East Asia, Southeat Asia and South Asia for example and see East Asia is generally the happiest part of Asia
+
+--   Are there any regional patterns in happiness from 2005-2022? Do countries in specific regions 
+--   (e.g., Europe, Asia, Africa) tend to be happier than others?
+
+SELECT 
+	Regional_Indicator, AVG(Life_Ladder) AS avg_life_ladder, 
+		(SELECT AVG(Life_Ladder) as two_five FROM WorldHappinessReport) AS global_avg
+FROM 
+	WorldHappinessReport
+WHERE 
+	Regional_Indicator IS NOT NULL
+GROUP BY 
+	Regional_Indicator
+ORDER BY 
+	2 DESC
+
+-- We can see that North American and ANZ, Western Europe and Latin America and Caribbean have the top 
+-- 3 highest Life Ladder
+
+-- We can also see the differences in places like East Asia, Southeat Asia and South Asia for example 
+-- and see East Asia is generally the happiest part of Asia
 
 
 
@@ -75,11 +88,16 @@ ORDER BY 2 DESC
 
 --  Analyzing the yearly average happiness scores by region. Are there any trends or patterns?
 
-SELECT Regional_Indicator, years, AVG(Life_Ladder) AS avg_life_ladder
-FROM WorldHappinessReport
-WHERE Regional_Indicator IS NOT NULL
-GROUP BY Regional_Indicator, years
-ORDER BY Regional_Indicator, years
+SELECT 
+	Regional_Indicator, years, AVG(Life_Ladder) AS avg_life_ladder
+FROM 
+	WorldHappinessReport
+WHERE 
+	Regional_Indicator IS NOT NULL
+GROUP BY
+	Regional_Indicator, years
+ORDER BY 
+	Regional_Indicator, years
 
 
 
@@ -96,7 +114,7 @@ ORDER BY Regional_Indicator, years
 
 
 
---	Which countries consistently rank as the top 10 happiest countries, and which countries consistently rank as the least happy?
+--  Which countries consistently rank as the top 10 happiest countries, and which countries consistently rank as the least happy?
 
 -- Top 10
 
@@ -156,16 +174,21 @@ ORDER BY 2 DESC
 
 
 
---	How do the six key variables (GDP per capita, social support, healthy life expectancy, freedom to make life choices, generosity, 
---   and perceptions of corruption) correlate with happiness scores? Which variables have the strongest correlations?
+--  How do the six key variables (GDP per capita, social support, healthy life expectancy, freedom to make life choices, 
+--  generosity, and perceptions of corruption) correlate with happiness scores? Which variables have the strongest correlations?
 
-SELECT Country_Name, Regional_Indicator, AVG(Life_Ladder) AS avg_life_ladder,AVG(Log_GDP_Per_Capita) AS avg_GDP,AVG(Social_Support) AS avg_social_support,
+SELECT 
+	Country_Name, Regional_Indicator, AVG(Life_Ladder) AS avg_life_ladder,AVG(Log_GDP_Per_Capita) AS avg_GDP,AVG(Social_Support) AS avg_social_support,
 	AVG(Healthy_Life_Expectancy_At_Birth) AS avg_life_expectancy,AVG(Freedom_To_Make_Life_Choices) AS avg_freedom,
 	AVG(generosity) AS avg_generosity,AVG(Perceptions_Of_Corruption) AS avg_corruption, AVG(Confidence_In_National_Government) AS confidence_in_gov
-FROM WorldHappinessReport
-WHERE Regional_Indicator IS NOT NULL
-GROUP BY Country_Name, Regional_Indicator
-ORDER BY 3 DESC
+FROM 
+	WorldHappinessReport
+WHERE 
+	Regional_Indicator IS NOT NULL
+GROUP BY 
+	Country_Name, Regional_Indicator
+ORDER BY 
+	3 DESC
 
 -- GDP,social support, life expectancy and freedom do seem to have a positive correlation with happiness scores.
 -- Generocity and Trust in national government do not appear to be related to happiness scores.
@@ -184,13 +207,18 @@ ORDER BY 3 DESC
 --	How do happiness scores and the six key variables change over time for specific regions? Are there any noticeable trends?
 
 
-SELECT years,Regional_Indicator,AVG(Life_Ladder) AS avg_happiness, AVG(Log_GDP_Per_Capita) AS avg_GDP,AVG(Social_Support) AS avg_social_support,
+SELECT 
+	years,Regional_Indicator,AVG(Life_Ladder) AS avg_happiness, AVG(Log_GDP_Per_Capita) AS avg_GDP,AVG(Social_Support) AS avg_social_support,
 	AVG(Healthy_Life_Expectancy_At_Birth) AS avg_life_expectancy,AVG(Freedom_To_Make_Life_Choices) AS avg_freedom,
 	AVG(generosity) AS avg_generosity,AVG(Perceptions_Of_Corruption) AS avg_corruption, AVG(Confidence_In_National_Government) AS confidence_in_gov
-FROM WorldHappinessReport
-WHERE Regional_Indicator IS NOT NULL
-GROUP BY years, Regional_Indicator
-ORDER BY Regional_Indicator,years
+FROM 
+	WorldHappinessReport
+WHERE 
+	Regional_Indicator IS NOT NULL
+GROUP BY 
+	years, Regional_Indicator
+ORDER BY 
+	Regional_Indicator,years
 
 
 
@@ -347,20 +375,24 @@ ORDER BY Life_Ladder DESC
 
 --  Which countries have the highest and lowest positive and negative affect scores? Investigate their key variables and happiness scores.
 
-SELECT TOP 5
-*,
-RANK () OVER(ORDER BY Positive_Affect DESC) AS Positive_Affect_Rank
-FROM WorldHappinessReport
-WHERE Positive_Affect IS NOT NULL 
-ORDER BY Positive_Affect_Rank
+SELECT TOP 5 *,
+	RANK () OVER(ORDER BY Positive_Affect DESC) AS Positive_Affect_Rank
+FROM 
+	WorldHappinessReport
+WHERE 
+	Positive_Affect IS NOT NULL 
+ORDER BY 
+	Positive_Affect_Rank
 
 
-SELECT TOP 5
-*,
-RANK () OVER(ORDER BY Negative_Affect DESC) AS Negative_Affect_Rank
-FROM WorldHappinessReport
-WHERE Negative_Affect IS NOT NULL
-ORDER BY Negative_Affect_Rank;
+SELECT TOP 5 *,
+	RANK () OVER(ORDER BY Negative_Affect DESC) AS Negative_Affect_Rank
+FROM 
+	WorldHappinessReport
+WHERE 
+	Negative_Affect IS NOT NULL
+ORDER BY 
+	Negative_Affect_Rank;
 
 
 -- By looking at these two tables we see the biggest differences in Social Support, Life Expectancy, and Freedom
@@ -378,19 +410,23 @@ ORDER BY Negative_Affect_Rank;
 --  Investigate how the key variables (GDP per capita, social support, healthy life expectancy, etc.) have changed over time for a specific country or region.
 --Good Visual
 
-SELECT
-  years, Regional_Indicator,
-  AVG(Log_GDP_Per_Capita) AS avg_gdp,
-  AVG(Social_Support) AS avg_social_support,
-  AVG(Healthy_Life_Expectancy_At_Birth) AS avg_life_expectancy,
-  AVG(Freedom_To_Make_Life_Choices) AS avg_freedom,
-  AVG(Generosity) AS avg_generosity,
-  AVG(Perceptions_Of_Corruption) AS avg_corruption
-FROM WorldHappinessReport
+SELECT 
+	years, Regional_Indicator,
+  	AVG(Log_GDP_Per_Capita) AS avg_gdp,
+  	AVG(Social_Support) AS avg_social_support,
+  	AVG(Healthy_Life_Expectancy_At_Birth) AS avg_life_expectancy,
+  	AVG(Freedom_To_Make_Life_Choices) AS avg_freedom,
+  	AVG(Generosity) AS avg_generosity,
+  	AVG(Perceptions_Of_Corruption) AS avg_corruption
+FROM 
+	WorldHappinessReport
 --WHERE Regional_Indicator LIKE '%latin%'
-WHERE Regional_Indicator IS NOT NULL
-GROUP BY Regional_Indicator,years
-ORDER BY Regional_Indicator,years
+WHERE 
+	Regional_Indicator IS NOT NULL
+GROUP BY 
+	Regional_Indicator,years
+ORDER BY 
+	Regional_Indicator,years
 
 
 
@@ -404,12 +440,12 @@ ORDER BY Regional_Indicator,years
 
 WITH country_averages AS (
   SELECT
-    Country_Name, Regional_Indicator, 
+	Country_Name, Regional_Indicator, 
 	AVG(Social_Support) AS support, AVG(Healthy_Life_Expectancy_At_Birth) AS life_expectancy, AVG(Freedom_To_Make_Life_Choices) AS freedom,
-    AVG(Life_Ladder) AS avg_happiness,    
+    	AVG(Life_Ladder) AS avg_happiness,    
 	RANK() OVER (ORDER BY AVG(Life_Ladder) DESC) AS happiness_rank, -- Last rank is 162
-    AVG(Log_GDP_Per_Capita) AS avg_gdp,
-    RANK() OVER (ORDER BY AVG(Log_GDP_Per_Capita) DESC) AS gdp_rank -- Last rank is 162
+    	AVG(Log_GDP_Per_Capita) AS avg_gdp,
+    	RANK() OVER (ORDER BY AVG(Log_GDP_Per_Capita) DESC) AS gdp_rank -- Last rank is 162
   FROM
     WorldHappinessReport
   WHERE 
@@ -429,30 +465,15 @@ ORDER BY
 
 
 
-SELECT AVG(Social_Support) AS avg_supoort,AVG(Healthy_Life_Expectancy_At_Birth) as avg_health,
+SELECT 
+	AVG(Social_Support) AS avg_supoort,AVG(Healthy_Life_Expectancy_At_Birth) as avg_health,
 	AVG(Freedom_To_Make_Life_Choices) AS avg_freedom
-FROM WorldHappinessReport
+FROM 
+	WorldHappinessReport
 
 
 -- We can see that most of the countries with a big difference in happiness rank and gdp rank and Latin America and Caribbean countries.
 -- We also note that most of these countries' averages for social support,life expectancy and freedom are above the global averages
-
-
-
-
-
-
-
-
---How do the happiness scores correlate with the population size or population density of a country? You may need to join the dataset with another table containing this information.
-
-
-
-
-
---Investigate how key variables and happiness scores are related to other country-level indicators, such as education, unemployment rate, or Human Development Index. You may need to join the dataset with another table containing this information.
-
-
 
 
 
@@ -575,8 +596,7 @@ WITH ranked_data AS (
 	FROM
 	  ranked_data
 )
-SELECT 
-	* 
+SELECT * 
 FROM 
 	diff 
 WHERE 
